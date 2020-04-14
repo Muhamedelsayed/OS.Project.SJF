@@ -1,3 +1,5 @@
+# ------------------------Sho8l Seka ----------------------
+
 def Time1(time):
     Q=round(time,1)
     return Q
@@ -31,7 +33,9 @@ def SJFPreemptive(NoOfProcesses,Process,ArrivalT,Burst,RemainingTime):
     ProcessIn = []
     TimeIn = []
     zyadat = []
+    min=10000
     AA = 0
+    index=0
     while AA < NoOfProcesses:
         zyadat.append(1000)
         AA += 1
@@ -39,14 +43,21 @@ def SJFPreemptive(NoOfProcesses,Process,ArrivalT,Burst,RemainingTime):
     TotalWaitingTime = 0
     for i in range(NoOfProcesses):
         for x in range(i + 1, NoOfProcesses):
-            if (float(ArrivalT[i]) + float(Burst[i]) < float(ArrivalT[x])):
+            if ((float(ArrivalT[i]) + float(Burst[i])) < float(ArrivalT[x])):
                 if ((float(ArrivalT[x]) - (float(ArrivalT[i]) + float(Burst[i]))) < zyadat[i]):
                     zyadat[i] = float(ArrivalT[x]) - (float(ArrivalT[i]) + float(Burst[i]))
+    for i in range (NoOfProcesses):
+        if float(ArrivalT[i])<min:
+           min=float(ArrivalT[i])
+           index=i
+    if min > 0:
+        mgmo3Elzyadat += min
+
     for i in range(NoOfProcesses):
         if (zyadat[i] < 1000):
             mgmo3Elzyadat += zyadat[i]
-    if float(ArrivalT[0]) > 0:
-        mgmo3Elzyadat += float(ArrivalT[0])
+
+
     Time = 0
     TimeAfter = 0
     i = 0
@@ -57,7 +68,7 @@ def SJFPreemptive(NoOfProcesses,Process,ArrivalT,Burst,RemainingTime):
         TotalBurst += float(Burst[z])
         z += 1
     TotalBurst += mgmo3Elzyadat
-    TrueIndex = 0
+    TrueIndex = index
     while Time1(Time) <= TotalBurst:
         while i < 100000:
             if (CheckArrive(TimeAfter, float(ArrivalT[TrueIndex])) == True and flag == 1):
@@ -154,6 +165,8 @@ def SJFNonPreemptive(NoOfProcesses,Process,ArrivalT,Burst):
     TimeIn = []
     flag = 0
     AA = 0
+    index=0
+    min=10000
     while AA < NoOfProcesses:
         zyadat.append(1000)
         AA += 1
@@ -165,11 +178,17 @@ def SJFNonPreemptive(NoOfProcesses,Process,ArrivalT,Burst):
                 if ((float(ArrivalT[x]) - (float(ArrivalT[i]) + float(Burst[i]))) < zyadat[i]):
                     zyadat[i] = float(ArrivalT[x]) - (float(ArrivalT[i]) + float(Burst[i]))
 
+    for i in range (NoOfProcesses):
+        if float(ArrivalT[i])<min:
+           min=float(ArrivalT[i])
+           index=i
+    if min > 0:
+        mgmo3Elzyadat += min
+
     for i in range(NoOfProcesses):
         if (zyadat[i] < 1000):
             mgmo3Elzyadat += zyadat[i]
-    if float(ArrivalT[0]) > 0:
-        mgmo3Elzyadat += float(ArrivalT[0])
+
     Time = 0
     TotalBurst = 0
     z = 0
@@ -177,7 +196,7 @@ def SJFNonPreemptive(NoOfProcesses,Process,ArrivalT,Burst):
         TotalBurst += float(Burst[z])
         z += 1
     TotalBurst += mgmo3Elzyadat
-    TrueIndex = 0
+    TrueIndex = index
     while Time <= TotalBurst:
         while i < 100000:
             if (CheckArrive(Time, float(ArrivalT[TrueIndex])) == True and flag == 1):
@@ -253,14 +272,6 @@ def main():
         print(("total AVG waiting time: ") + str(AvgWaitingTime))
 
         # ----------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
 
 
 
